@@ -51,6 +51,7 @@ function scanPage(pageIndex) {
 
         // console.log(usersInfo);
 
+        // filter the users and save to file
         usersInfo.forEach(function(element, i) {
           if (element.toLowerCase().indexOf(args[1].toLowerCase()) !== -1) {
             console.log('saving to file : ' + element);
@@ -64,23 +65,6 @@ function scanPage(pageIndex) {
     else {
       console.log('error crawling page ' + pageIndex);
       page.release();
-    }
-  });
-}
-
-// This will go over the whole list, filter the ones we asked for
-// and write them to a file
-function filterAndSave(users) {
-  users.forEach(function(element, index) {
-    
-
-    var userInfo = userReputation + '; ' + userName + '; ' + userLink + '; ' + userLocation;
-    console.log(userInfo);
-
-    if (userLocation.indexOf(args[0]) > -1) {
-      //var userInfo = userReputation + '; ' + userName + '; ' + userLink + '; ' + userLocation;
-      console.log(userInfo);
-      fs.write('users.txt', userInfo, 'a');
     }
   });
 }
