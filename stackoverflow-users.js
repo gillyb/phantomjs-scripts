@@ -1,9 +1,19 @@
+//
+// This script scrapes all the users from StackOverflow ordered by their flair.
+// You need to filter the users by location, and tell the script from what page to start
+// and until what page to scan.
+// You can also run the script without a limit, and it won't stop until it reaches
+// the end and gets an error.
+//
+// Example usage : phantomjs.exe stackoverflow-users.js Israel 0 10
+// This will scan the first 10 pages of users on the site filtering the users from Israel
+//
 var fs = require('fs');
 var system = require('system');
     args = system.args;
 
 var page;
-var pageCount = 0;
+var pageCount = args[2];
  
 scanPage(pageCount);
  
@@ -13,7 +23,7 @@ function scanPage(pageIndex) {
     page.release();
 
   // dispose of phantomjs if we're done
-  if (pageIndex > args[2]) {
+  if (pageIndex > args[3]) {
     phantom.exit();
     return;
   }
@@ -38,7 +48,7 @@ function scanPage(pageIndex) {
           $.each(users, function(index, element) {
             var userDetails = $(element).find('.user-details');
             var userName = $(userDetails.find('a')[0]).html();
-            var userLink = $(userDetails.find('a')[0]).attr('href');
+            var userLink = 'http://www.stackoverflow.com' + $(userDetails.find('a')[0]).attr('href').trim();
             var userReputation = $(userDetails.find('.reputation-score')).html();
             var userLocation = $(userDetails.find('.user-location')).html();
 
